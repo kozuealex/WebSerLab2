@@ -16,6 +16,8 @@ target/
 ### IntelliJ IDEA ###
 .idea
 .mvn
+mvnw.cmd
+mvnw
 *.iws
 *.iml
 *.ipr

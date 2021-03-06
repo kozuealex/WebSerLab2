@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 @WebMvcTest(MonkeyController.class)
 @Import(TestService.class)
-public class MvcTest {
+public class MvcTestDemo {
 
     @Autowired
     //@MockBean
