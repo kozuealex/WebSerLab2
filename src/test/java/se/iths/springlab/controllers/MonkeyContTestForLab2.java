@@ -111,7 +111,7 @@ public class MonkeyContTestForLab2 {
     }
 
     @Test
-    public void callingReplacesWithIdPutsOneMonkey() throws Exception {
+    public void callingReplacesWithIdReturnsOK() throws Exception {
         var newMonkeyDto = new MonkeyDto(1, "TestMonkey5", "TestType5", 5, "M");
         mockMvc.perform(put("/animals/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -122,7 +122,7 @@ public class MonkeyContTestForLab2 {
     }
 
     @Test
-    public void callingUpdateWithIdPatchOneMonkey() throws Exception {
+    public void callingUpdateWithIdReturnsOK() throws Exception {
         String patchText = "{\"name\":\"ChangeMonkey\"}";
         mockMvc.perform(patch("/animals/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -133,11 +133,12 @@ public class MonkeyContTestForLab2 {
     }
 
     @Test
-    public void callingGetMonkeyByNameReturnsMonkeyList() throws Exception {
+    public void callingGetMonkeyByNameReturnsOK() throws Exception {
         String name = "TestMonkey";
         mockMvc.perform(get("/animals/search")
                 .param("name", name))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }
