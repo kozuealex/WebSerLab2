@@ -134,9 +134,6 @@ public class MonkeyContTestForLab2 {
 
     @Test
     public void callingGetMonkeyByNameReturnsMonkeyList() throws Exception {
-        when(testService.getMonkeyByName(MonkeyDto.class.getName()))
-                .thenReturn(List.of(new MonkeyDto(2, "TestMonkey", "TestType2", 2, "M"),
-                                    new MonkeyDto(3, "TestMonkey", "TestType3", 3, "F"))); 
         String name = "TestMonkey";
         mockMvc.perform(get("/animals/search")
                 .param("name", name))
