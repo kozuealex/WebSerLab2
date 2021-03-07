@@ -51,7 +51,8 @@ class SpringlabApplicationTests {
 
     @Test
     public void callingUpdatePatchesOneMonkey() {
-        when(testService.createMonkey(any(MonkeyDto.class))).thenReturn(new MonkeyDto());
+        when(testService.createMonkey(any(MonkeyDto.class)))
+                .thenReturn(new MonkeyDto(1, "TestMonkey", "TestType", 1, "F"));
         String patchText = "{\"name\":\"ChangeMonkey\"}";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

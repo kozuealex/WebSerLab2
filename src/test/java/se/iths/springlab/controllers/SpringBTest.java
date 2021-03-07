@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class SpringBTestLab2 {
+public class SpringBTest {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
