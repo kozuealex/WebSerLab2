@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class MonkeyContTestForLab2 {
+public class SpringBTestLab2 {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -44,7 +44,9 @@ public class MonkeyContTestForLab2 {
     @Before
     public void init() {
         MonkeyDto monkeyDto = new MonkeyDto(1, "TestMonkey", "TestType", 1, "M");
+        MonkeyDto monkeyDto2 = new MonkeyDto(6, "TestMonkey", "TestType6", 6, "F");
         when(testService.getOne(1)).thenReturn(Optional.of(monkeyDto));
+        when(testService.getMonkeyByName("TestMonkey")).thenReturn(List.of(monkeyDto, monkeyDto2));
     }
 
     @Test
@@ -104,15 +106,18 @@ public class MonkeyContTestForLab2 {
 
     @Test
     public void callingDeleteWithIdRemovesMonkey() throws Exception {
-        doNothing().when(testService).delete(1);
-        mockMvc.perform(delete("/animals/1"))
-                .andExpect(status().isOk());
-        verify(testService, times(1)).delete(1);
+        var monkeyDto = new MonkeyDto(4, "TestMonkey4", "TestType4", 4, "F");
+        when(testService.createMonkey(any(MonkeyDto.class))).thenReturn(monkeyDto);
+        mockMvc.perform(delete("/animals/4"))
+                .andExpect(status().isOk())
+                .andDo(print());
+        verify(testService, times(1)).delete(4);
     }
 
     @Test
     public void callingReplacesWithIdReturnsOK() throws Exception {
         var newMonkeyDto = new MonkeyDto(1, "TestMonkey5", "TestType5", 5, "M");
+        when(testService.createMonkey(any(MonkeyDto.class))).thenReturn(newMonkeyDto);
         mockMvc.perform(put("/animals/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(newMonkeyDto))
@@ -123,6 +128,8 @@ public class MonkeyContTestForLab2 {
 
     @Test
     public void callingUpdateWithIdReturnsOK() throws Exception {
+        var monkeyDto = new MonkeyDto(4, "TestMonkey4", "TestType4", 4, "F");
+        when(testService.createMonkey(any(MonkeyDto.class))).thenReturn(monkeyDto);
         String patchText = "{\"name\":\"ChangeMonkey\"}";
         mockMvc.perform(patch("/animals/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -133,12 +140,13 @@ public class MonkeyContTestForLab2 {
     }
 
     @Test
-    public void callingGetMonkeyByNameReturnsOK() throws Exception {
+    public void callingGetMonkeyByNameReturnsMonkeysWithName() throws Exception {
         String name = "TestMonkey";
         mockMvc.perform(get("/animals/search")
                 .param("name", name))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(print());
+        verify(testService, times(1)).getMonkeyByName(name);
     }
 }

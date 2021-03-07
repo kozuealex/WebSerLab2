@@ -57,7 +57,7 @@ public class MonkeyController {
     }
 
     @GetMapping(value = "/animals/search", params = "name")
-    public @ResponseBody List<MonkeyDto> oneName(@RequestParam String name) {
+    public List<MonkeyDto> oneName(@RequestParam String name) {
         return service.getMonkeyByName(name);
     }
 
